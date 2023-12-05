@@ -1,0 +1,9 @@
+---
+
+- name: "include supported OS {{ ansible_distribution }} {{ ansible_distribution_version }}"
+  debug:
+    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is supported"
+
+- name: "Display the main dict items"
+  debug:
+    msg: "{{ merged }}"

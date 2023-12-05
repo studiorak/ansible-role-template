@@ -1,0 +1,32 @@
+---
+# tasks file for role-template-dio
+
+- name: combine ALL GROUP and HOST variable 
+  include_tasks: 
+    file: "{{ role_path }}/tasks/00_core/combine.yml"
+
+- name: include best practises 
+  include_tasks: 
+    file: "{{ role_path }}/tasks/00_core/best-practices.yml"
+
+- name: debug 
+  include_tasks: 
+    file: "{{ role_path }}/tasks/00_core/debug.yml"
+
+- name: Check if os directory or link exist for current OS 
+  stat:
+    path: "{{ role_path }}/tasks/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}-is-supported"
+  register: supported_os_path
+  delegate_to: localhost
+  become: no
+
+- name: DEBUG supported OS
+  debug:
+    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is not supported"
+  when: supported_os_path.stat.exists == false
+
+- name: include the main task  
+  include_tasks: 
+    file: "{{ role_path }}/tasks/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}-is-supported/common.yml"
+  ignore_errors: true 
+  when: supported_os_path.stat.exists == true

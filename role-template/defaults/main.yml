@@ -1,0 +1,6 @@
+---
+cur_role_name: "{{ role_name|basename|regex_replace('-', '_') }}"
+merged:
+  type: dict
+dict_default_var: 
+  default: loaded

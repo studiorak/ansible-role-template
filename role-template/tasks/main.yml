@@ -1,0 +1,5 @@
+---
+
+- name: launch di2c ansible core 
+  include_tasks:
+    file: "{{ role_path }}/tasks/00_core/start.yml"

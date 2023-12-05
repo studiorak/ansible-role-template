@@ -1,0 +1,10 @@
+all:
+  children:
+    windows:
+      hosts: 
+        my-first-windows-server:
+        my-second-windows-server:
+    linux:  
+      hosts: 
+        my-first-linux-server:
+        my-second-linux-server:

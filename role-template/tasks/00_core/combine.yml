@@ -1,0 +1,33 @@
+---
+
+- name: define current role name dynamicly
+  set_fact: 
+    cur_role_name: "{{ role_name|basename|regex_replace('-', '_') }}"
+
+- name: define ALL GROUP and HOST variable for this role  
+  set_fact:
+    # default values are stored in dict_default_var
+    in_dict_all_var: "{{ vars['in_dict_all_'+ cur_role_name] | default(omit)}}"
+    in_dict_group_var: "{{ vars['in_dict_group_' + cur_role_name] | default(omit)}}"
+    in_dict_host_var: "{{ vars['in_dict_host_' + cur_role_name] | default(omit)}}"
+    in_dict_vault_var: "{{ vars['in_dict_vault_'+ cur_role_name] | default(omit)}}"
+
+- name: append all.yml vars to defaults and create merged
+  set_fact: 
+    merged: "{{ dict_default_var | combine(in_dict_all_var, recursive=true) }}"
+  when: in_dict_all_var is defined
+
+- name: append group_vars.yml vars to merged
+  set_fact: 
+    merged: "{{ merged | combine(in_dict_group_var, recursive=true) }}"
+  when: in_dict_group_var is defined
+
+- name: append host_vars.yml vars to merged
+  set_fact: 
+    merged: "{{ merged | combine(in_dict_host_var, recursive=true) }}"
+  when: in_dict_host_var is defined
+
+- name: append vault vars to merged
+  set_fact: 
+    merged: "{{ merged | combine(in_dict_vault_var, recursive=true) }}"
+  when: in_dict_vault_var is defined
