@@ -32,7 +32,7 @@ Role Variables
 
 All these vars are overrided with below precedence :
 
-var: in_dict_all_<my_role_name>
+var: in_dict_all_<my_role_name><br />
 path: "{{ inventory_dir }}"/my_customer/group_vars/all/all.yml
 
 var: in_dict_group_<my_role_name> 
