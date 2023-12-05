@@ -30,10 +30,19 @@ None but basic usage of ansible
 Role Variables
 --------------
 
-    in_dict_all_var: "{{ vars['in_dict_all_'+ cur_role_name] | default(omit)}}"
-    in_dict_group_var: "{{ vars['in_dict_group_' + cur_role_name] | default(omit)}}"
-    in_dict_host_var: "{{ vars['in_dict_host_' + cur_role_name] | default(omit)}}"
-    in_dict_vault_var: "{{ vars['in_dict_vault_'+ cur_role_name] | default(omit)}}"
+All these vars are overrided with below precedence :
+
+var: in_dict_all_<my_role_name>
+path: "{{ inventory_dir }}"/my_customer/group_vars/all/all.yml
+
+var: in_dict_group_<my_role_name> 
+path: "{{ inventory_dir }}"/my_customer/group_vars/<my_group>/<my_group>.yml
+
+var: in_dict_host_<my_role_name> 
+path: "{{ inventory_dir }}"/my_customer/host_vars/<my_hostname>/<my_hostname>.yml
+
+var: in_dict_vault_<my_role_name> 
+path: "{{ inventory_dir }}"/my_customer/group_vars/<my_group|my_hostname>/<my_group|my_hostname>.vault
 
 Dependencies
 ------------
